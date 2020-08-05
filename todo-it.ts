@@ -169,3 +169,78 @@ class HTMLTodoListView implements TodoListView {
     });
   }
 }
+
+// Controllers
+
+interface TodoListController {
+    addTodo(): void;
+    filterTodoList(): void;
+    removeTodo(identifier: string): void;
+}
+
+class TodoIt implements TodoListController {
+    private readonly _todoList: TodoList = new TodoList();
+
+    constructor(private _todoListView: TodoListView) {
+        console.log("TodoIt");
+
+        if(!_todoListView) {
+            throw new Error("The todo list view implementation is required to properly initialize TodoIt!");
+        }
+    }
+
+    addTodo(): void {
+        const newTodo = this._todoListView.getInput();
+
+        if ('' !== newTodo.description) {
+            console.log("Adding todo: ", newTodo);
+
+            this._todoList.addTodo(newTodo);
+            console.log("New todo list: ", this._todoList.todoList);
+
+            this._todoListView.clearInput();
+
+            this._todoListView.render(this._todoList.todoList);
+
+            this.filterTodoList();
+        }
+    }
+
+    filterTodoList(): void {
+        this._todoListView.filter();
+    }
+
+    removeTodo(identifier: string): void {
+        if(identifier) {
+            console.log("item to remove: ", identifier);
+            this._todoList.removeTodo(identifier);
+            this._todoListView.render(this._todoList.todoList);
+            this.filterTodoList();
+        }
+    }
+}
+
+// Utils
+class EventUtils {
+    static isEnter(event: KeyboardEvent): boolean {
+        let isEnterResult = false;
+
+        if(event !== undefined && event.defaultPrevented) {
+            return false;
+        }
+
+        if (event == undefined) {
+            isEnterResult = false;
+        } else if (event.key !== undefined) {
+            isEnterResult = event.key === 'Enter';
+        } else if (event.keyCode !== undefined) {
+            isEnterResult = event.keyCode === 13;
+        }
+
+        return isEnterResult;
+    }
+}
+
+// Init
+const view = new HTMLTodoListView();
+const todoIt = new TodoIt(view);
