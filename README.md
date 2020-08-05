@@ -7,3 +7,11 @@ Demo app for practice with Typescript
 - List existing todo items
 - Filter the list of existing todo items
 - Remove a single todo item
+
+## Run
+
+```bash
+$ npm install
+$ npm run compile
+$ npm run serve
+```
