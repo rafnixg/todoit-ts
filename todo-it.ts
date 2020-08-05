@@ -29,3 +29,34 @@ class TodoItem {
     }
 }
 
+class TodoList {
+    private _todoList: ReadonlyArray<TodoItem> = [];
+
+    constructor(todoList?: TodoItem[]) {
+        if(Array.isArray(todoList) && todoList.length) {
+            this._todoList = this._todoList.concat(todoList);
+        }
+    }
+
+    get todoList(): ReadonlyArray<TodoItem> {
+        return this._todoList
+    }
+
+    addTodo(todoItem: TodoItem) {
+        if(todoItem) {
+            this._todoList = this._todoList.concat(todoItem);
+        }
+    }
+
+    removeTodo(itemId: string) {
+        if(itemId) {
+            this._todoList = this._todoList.filter(item => {
+                if(item.identifier === itemId) {
+                    return false; // drop
+                } else {
+                    return true; // keep
+                }
+            });
+        }
+    }
+}
