@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 // Models
 
@@ -14,7 +14,7 @@ class TodoItem {
     } else {
       // this is just for the example; for any real project, use
       // UUIDs instead: https://www.npmjs.com/package/uuid
-      this._identifier = uuidv4();
+      this._identifier = Math.random().toString(36).substr(2, 9);
     }
   }
 
@@ -158,12 +158,12 @@ class HTMLTodoListView implements TodoListView {
     todoListHtml.childNodes.forEach((item) => {
       let itemText: string | null = item.textContent;
       if (itemText !== null) {
-        itemText = itemText.toUpperCase();
+        itemText = itemText.trim().toUpperCase();
 
         if (itemText.startsWith(todoListFilterText)) {
-          (item as HTMLLIElement).style.display = "list-item";
+          (item as HTMLLIElement).style.cssText = 'display:flex !important';
         } else {
-          (item as HTMLLIElement).style.display = "none";
+          (item as HTMLLIElement).style.cssText = 'display:none !important';
         }
       }
     });
