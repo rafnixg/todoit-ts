@@ -1,4 +1,4 @@
-# TodoIt v2 in Typescript using class & interfaces
+# TodoIt in Typescript using class & interfaces
 
 Demo app for practice with Typescript
 
